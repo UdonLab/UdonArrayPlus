@@ -23,12 +23,7 @@ namespace UdonLab
         }
         public static int StringsFind(string[] _array, string _value)
         {
-            for (int i = 0; i < _array.Length; i++)
-            {
-                if (_array[i] == _value)
-                    return i;
-            }
-            return -1;
+            return StringsIndex(_array, _value);
         }
         public static int[] StringsFindAll(string[] _array, string _value)
         {
@@ -68,6 +63,10 @@ namespace UdonLab
             {
                 return _array;
             }
+            else if (index == _array.Length)
+            {
+                return StringsAdd(_array, _value);
+            }
             else
             {
                 string[] _newArray = new string[_array.Length + 1];
@@ -86,14 +85,9 @@ namespace UdonLab
         public static string[] StringsAdd2(string[] _array, string _value)
         {
             int index = StringsIndex(_array, _value);
-            if (index == -1)
-            {
-                return StringsAdd(_array, _value);
-            }
-            else
-            {
+            if (index != -1)
                 return _array;
-            }
+            return StringsAdd(_array, _value);
         }
         public static string[] StringsRemoveIndex(string[] _array, int index)
         {
@@ -128,14 +122,21 @@ namespace UdonLab
             }
         }
         // VRCUrl
-        public static int VRCUrlsFind(VRCUrl[] _array, VRCUrl _value)
+        public static VRCUrl[] VRCUrlsFindLikeAll(VRCUrl[] _array, string _value)
         {
+            VRCUrl[] _newArray = new VRCUrl[0];
             for (int i = 0; i < _array.Length; i++)
             {
-                if (_array[i].ToString() == _value.ToString())
-                    return i;
+                if (_array[i].ToString().Contains(_value))
+                {
+                    _newArray = VRCUrlsAdd(_newArray, _array[i]);
+                }
             }
-            return -1;
+            return _newArray;
+        }
+        public static int VRCUrlsFind(VRCUrl[] _array, VRCUrl _value)
+        {
+            return VRCUrlsIndex(_array, _value);
         }
         public static int[] VRCUrlsFindAll(VRCUrl[] _array, VRCUrl _value)
         {
@@ -169,17 +170,37 @@ namespace UdonLab
             _newArray[_array.Length] = _value;
             return _newArray;
         }
-        public static VRCUrl[] VRCUrlsAdd2(VRCUrl[] _array, VRCUrl _value)
+        public static VRCUrl[] VRCUrlsAddIndex(VRCUrl[] _array, VRCUrl _value, int index)
         {
-            int index = VRCUrlsIndex(_array, _value);
-            if (index == -1)
+            if (index < 0 || index > _array.Length)
+            {
+                return _array;
+            }
+            else if (index == _array.Length)
             {
                 return VRCUrlsAdd(_array, _value);
             }
             else
             {
-                return _array;
+                VRCUrl[] _newArray = new VRCUrl[_array.Length + 1];
+                for (int i = 0; i < index; i++)
+                {
+                    _newArray[i] = _array[i];
+                }
+                _newArray[index] = _value;
+                for (int i = index + 1; i < _array.Length + 1; i++)
+                {
+                    _newArray[i] = _array[i - 1];
+                }
+                return _newArray;
             }
+        }
+        public static VRCUrl[] VRCUrlsAdd2(VRCUrl[] _array, VRCUrl _value)
+        {
+            int index = VRCUrlsIndex(_array, _value);
+            if (index != -1)
+                return _array;
+            return VRCUrlsAdd(_array, _value);
         }
         public static VRCUrl[] VRCUrlsRemoveIndex(VRCUrl[] _array, int index)
         {
@@ -216,12 +237,7 @@ namespace UdonLab
         // Texture2D
         public static int Texture2DsFind(Texture2D[] _array, Texture2D _value)
         {
-            for (int i = 0; i < _array.Length; i++)
-            {
-                if (_array[i] == _value)
-                    return i;
-            }
-            return -1;
+            return Texture2DsIndex(_array, _value);
         }
         public static int[] Texture2DsFindAll(Texture2D[] _array, Texture2D _value)
         {
@@ -258,14 +274,9 @@ namespace UdonLab
         public static Texture2D[] Texture2DsAdd2(Texture2D[] _array, Texture2D _value)
         {
             int index = Texture2DsIndex(_array, _value);
-            if (index == -1)
-            {
-                return Texture2DsAdd(_array, _value);
-            }
-            else
-            {
+            if (index != -1)
                 return _array;
-            }
+            return Texture2DsAdd(_array, _value);
         }
         public static Texture2D[] Texture2DsRemoveIndex(Texture2D[] _array, int index)
         {
@@ -302,12 +313,7 @@ namespace UdonLab
         // Int
         public static int IntsFind(int[] _array, int _value)
         {
-            for (int i = 0; i < _array.Length; i++)
-            {
-                if (_array[i] == _value)
-                    return i;
-            }
-            return -1;
+            return IntsIndex(_array, _value);
         }
         public static int[] IntsFindAll(int[] _array, int _value)
         {
@@ -341,17 +347,37 @@ namespace UdonLab
             _newArray[_array.Length] = _value;
             return _newArray;
         }
-        public static int[] IntsAdd2(int[] _array, int _value)
+        public static int[] IntsAddIndex(int[] _array, int _value, int index)
         {
-            int index = IntsIndex(_array, _value);
-            if (index == -1)
+            if (index < 0 || index > _array.Length)
+            {
+                return _array;
+            }
+            else if (index == _array.Length)
             {
                 return IntsAdd(_array, _value);
             }
             else
             {
-                return _array;
+                int[] _newArray = new int[_array.Length + 1];
+                for (int i = 0; i < index; i++)
+                {
+                    _newArray[i] = _array[i];
+                }
+                _newArray[index] = _value;
+                for (int i = index + 1; i < _array.Length + 1; i++)
+                {
+                    _newArray[i] = _array[i - 1];
+                }
+                return _newArray;
             }
+        }
+        public static int[] IntsAdd2(int[] _array, int _value)
+        {
+            int index = IntsIndex(_array, _value);
+            if (index != -1)
+                return _array;
+            return IntsAdd(_array, _value);
         }
         public static int[] IntsRemoveIndex(int[] _array, int index)
         {
@@ -408,12 +434,7 @@ namespace UdonLab
         // Float
         public static int FloatsFind(float[] _array, float _value)
         {
-            for (int i = 0; i < _array.Length; i++)
-            {
-                if (_array[i] == _value)
-                    return i;
-            }
-            return -1;
+            return FloatsIndex(_array, _value);
         }
         public static int[] FloatsFindAll(float[] _array, float _value)
         {
@@ -447,17 +468,37 @@ namespace UdonLab
             _newArray[_array.Length] = _value;
             return _newArray;
         }
-        public static float[] FloatsAdd2(float[] _array, float _value)
+        public static float[] FloatsAddIndex(float[] _array, float _value, int index)
         {
-            int index = FloatsIndex(_array, _value);
-            if (index == -1)
+            if (index < 0 || index > _array.Length)
+            {
+                return _array;
+            }
+            else if (index == _array.Length)
             {
                 return FloatsAdd(_array, _value);
             }
             else
             {
-                return _array;
+                float[] _newArray = new float[_array.Length + 1];
+                for (int i = 0; i < index; i++)
+                {
+                    _newArray[i] = _array[i];
+                }
+                _newArray[index] = _value;
+                for (int i = index + 1; i < _array.Length + 1; i++)
+                {
+                    _newArray[i] = _array[i - 1];
+                }
+                return _newArray;
             }
+        }
+        public static float[] FloatsAdd2(float[] _array, float _value)
+        {
+            int index = FloatsIndex(_array, _value);
+            if (index != -1)
+                return _array;
+            return FloatsAdd(_array, _value);
         }
         public static float[] FloatsRemoveIndex(float[] _array, int index)
         {
@@ -563,23 +604,42 @@ namespace UdonLab
             }
             return -1;
         }
-        public static VRCPlayerApi[] PlayersAdd(VRCPlayerApi[] players, VRCPlayerApi _player)
+        public static VRCPlayerApi[] PlayersAdd(VRCPlayerApi[] players, VRCPlayerApi _player, bool force = false)
         {
             int index = PlayersIndex(players, _player);
-            if (index == -1)
+            if (index != -1 && !force)
+                return players;
+            VRCPlayerApi[] newPlayers = new VRCPlayerApi[players.Length + 1];
+            Array.Copy(players, newPlayers, players.Length);
+            newPlayers[players.Length] = _player;
+            return newPlayers;
+        }
+        public static VRCPlayerApi[] PlayersAddIndex(VRCPlayerApi[] players, VRCPlayerApi _player, int index, bool force = false)
+        {
+            if (index < 0 || index > players.Length)
             {
-                VRCPlayerApi[] newPlayers = new VRCPlayerApi[players.Length + 1];
-                // for (int i = 0; i < players.Length; i++)
-                // {
-                //     newPlayers[i] = players[i];
-                // }
-                Array.Copy(players, newPlayers, players.Length);
-                newPlayers[players.Length] = _player;
-                return newPlayers;
+                return players;
+            }
+            else if (index == players.Length)
+            {
+                return PlayersAdd(players, _player);
             }
             else
             {
-                return players;
+                int _index = PlayersIndex(players, _player);
+                if (_index != -1 && !force)
+                    return players;
+                VRCPlayerApi[] newPlayers = new VRCPlayerApi[players.Length + 1];
+                for (int i = 0; i < index; i++)
+                {
+                    newPlayers[i] = players[i];
+                }
+                newPlayers[index] = _player;
+                for (int i = index + 1; i < players.Length + 1; i++)
+                {
+                    newPlayers[i] = players[i - 1];
+                }
+                return newPlayers;
             }
         }
         public static VRCPlayerApi[] PlayersRemove(VRCPlayerApi[] players, VRCPlayerApi _player)
@@ -614,6 +674,18 @@ namespace UdonLab
             return PlayersFindName(players, _name);
         }
         // gameobject
+        public static GameObject[] GameObjectsFindNameLikeAll(GameObject[] _array, string _name)
+        {
+            GameObject[] _newArray = new GameObject[0];
+            for (int i = 0; i < _array.Length; i++)
+            {
+                if (_array[i].name.Contains(_name))
+                {
+                    _newArray = GameObjectsAdd(_newArray, _array[i]);
+                }
+            }
+            return _newArray;
+        }
         public static GameObject GameObjectsFindName(GameObject[] _array, string _name)
         {
             var index = GameObjectsIndexName(_array, _name);
@@ -672,17 +744,37 @@ namespace UdonLab
             _newArray[_array.Length] = _value;
             return _newArray;
         }
-        public static GameObject[] GameObjectsAdd2(GameObject[] _array, GameObject _value)
+        public static GameObject[] GameObjectsAddIndex(GameObject[] _array, GameObject _value, int index)
         {
-            int index = GameObjectsIndex(_array, _value);
-            if (index == -1)
+            if (index < 0 || index > _array.Length)
+            {
+                return _array;
+            }
+            else if (index == _array.Length)
             {
                 return GameObjectsAdd(_array, _value);
             }
             else
             {
-                return _array;
+                GameObject[] _newArray = new GameObject[_array.Length + 1];
+                for (int i = 0; i < index; i++)
+                {
+                    _newArray[i] = _array[i];
+                }
+                _newArray[index] = _value;
+                for (int i = index + 1; i < _array.Length + 1; i++)
+                {
+                    _newArray[i] = _array[i - 1];
+                }
+                return _newArray;
             }
+        }
+        public static GameObject[] GameObjectsAdd2(GameObject[] _array, GameObject _value)
+        {
+            int index = GameObjectsIndex(_array, _value);
+            if (index != -1)
+                return _array;
+            return GameObjectsAdd(_array, _value);
         }
         public static GameObject[] GameObjectsRemoveIndex(GameObject[] _array, int index)
         {
@@ -826,14 +918,9 @@ namespace UdonLab
         public static UdonBehaviour[] UdonBehavioursAdd2(UdonBehaviour[] _array, UdonBehaviour _value)
         {
             int index = UdonBehavioursIndex(_array, _value);
-            if (index == -1)
-            {
-                return UdonBehavioursAdd(_array, _value);
-            }
-            else
-            {
+            if (index != -1)
                 return _array;
-            }
+            return UdonBehavioursAdd(_array, _value);
         }
         public static UdonBehaviour[] UdonBehavioursRemoveIndex(UdonBehaviour[] _array, int index)
         {
@@ -1015,14 +1102,9 @@ namespace UdonLab
         public static UdonSharpBehaviour[] UdonSharpBehavioursAdd2(UdonSharpBehaviour[] _array, UdonSharpBehaviour _value)
         {
             int index = UdonSharpBehavioursIndex(_array, _value);
-            if (index == -1)
-            {
-                return UdonSharpBehavioursAdd(_array, _value);
-            }
-            else
-            {
+            if (index != -1)
                 return _array;
-            }
+            return UdonSharpBehavioursAdd(_array, _value);
         }
         public static UdonSharpBehaviour[] UdonSharpBehavioursRemoveIndex(UdonSharpBehaviour[] _array, int index)
         {
@@ -1067,6 +1149,31 @@ namespace UdonLab
             Array.Copy(_array, _newArray, _array.Length);
             _newArray[_array.Length] = _value;
             return _newArray;
+        }
+        public static bool[] BoolsAddIndex(bool[] _array, bool _value, int index)
+        {
+            if (index < 0 || index > _array.Length)
+            {
+                return _array;
+            }
+            else if (index == _array.Length)
+            {
+                return BoolsAdd(_array, _value);
+            }
+            else
+            {
+                bool[] _newArray = new bool[_array.Length + 1];
+                for (int i = 0; i < index; i++)
+                {
+                    _newArray[i] = _array[i];
+                }
+                _newArray[index] = _value;
+                for (int i = index + 1; i < _array.Length + 1; i++)
+                {
+                    _newArray[i] = _array[i - 1];
+                }
+                return _newArray;
+            }
         }
         public static bool[] BoolsRemove(bool[] _array, int index)
         {
