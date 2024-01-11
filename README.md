@@ -4,7 +4,7 @@ Non-Mainland China (except China Hong Kong, China Macau, and China Taiwan) indiv
 
 非中国大陆（中国香港、中国澳门和中国台湾除外）的个人或公司须遵守 LGPL 许可证。
 
-Individuals or companies in mainland China (except China Hong Kong, China Macau, and China Taiwan) are prohibited from using this LGPL license and using this warehouse if the following circumstances apply:
+Individuals or companies in mainland China (except China Hong Kong, China Macau, and China Taiwan) are prohibited from using this LGPL license and using this repository if the following circumstances apply:
 
 中国大陆地区（中国香港、中国澳门和中国台湾除外）的个人或公司如含有以下情况禁止使用该 LGPL 许可并禁止使用此仓库（包括此仓库的任一文件）：
 1. 以公司、社团名义创建的地图/世界
