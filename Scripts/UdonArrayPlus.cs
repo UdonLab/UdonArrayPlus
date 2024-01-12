@@ -219,10 +219,6 @@ namespace UdonLab
                 return _newArray;
             }
         }
-        public static VRCUrl[] VRCUrlsRemoveIndex(VRCUrl[] _array, int index)
-        {
-            return RemoveIndex(_array, index);
-        }
         public static VRCUrl[] VRCUrlsRemove(VRCUrl[] _array, VRCUrl _value)
         {
             int index = VRCUrlsIndex(_array, _value);
