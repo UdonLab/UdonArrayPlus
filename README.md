@@ -33,3 +33,6 @@ Individuals or companies in mainland China (except China Hong Kong, China Macau,
 3. 由 Sonic853 明确禁止的个人用户、公司
 
 如需获得使用此储存库以及商品的授权，请联系作者 Sonic853 (sonic853@qq.com) 获取授权或访问 [爱发电](https://afdian.net/a/Sonic853) 手动获取授权
+
+## Same repository:
+[Varneon/VUdon-ArrayExtensions](https://github.com/Varneon/VUdon-ArrayExtensions)
