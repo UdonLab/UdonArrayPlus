@@ -1,4 +1,25 @@
 # UdonArrayPlus
+
+# Installation method (VCC):
+Click the "Add Repository" button under Settings → Packages and enter the following URL:
+
+https://page.853lab.com/vpm.json
+
+Then add the "Udon Array Plus" package to the project.
+
+# Installation method (UnityPackage):
+Download the UnityPackage package through [Booth](https://853lab.booth.pm/items/5418246), and then open the import in Unity. Note that this method does not support updates.
+
+# 安装方法（VCC）：
+在 Settings → Packages 下点击“Add Repository”按钮后输入以下URL：
+
+https://page.853lab.com/vpm.json
+
+随后在项目添加“Udon Array Plus”包。
+
+# 安装方法（UnityPackage）：
+通过 [Booth](https://853lab.booth.pm/items/5418246) 下载UnityPackage包，随后在Unity打开导入。注意，此方法不支持更新。
+
 ## License restrictions 许可限制
 Non-Mainland China (except China Hong Kong, China Macau, and China Taiwan) individuals or companies are subject to an LGPL license.
 
