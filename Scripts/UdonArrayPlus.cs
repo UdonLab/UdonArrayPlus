@@ -5,6 +5,10 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
 
+// Some work has a legacy of compatibility with UdonSharp 0.x version, and then I referred to some of Varneon's codes in the upgrade.
+// Varneon's VUdon-ArrayExtensions license: MIT License
+// Reference code: https://github.com/Varneon/VUdon-ArrayExtensions/blob/main/Packages/com.varneon.vudon.array-extensions/Runtime/UdonArrayExtensions.cs
+
 namespace UdonLab
 {
     public class UdonArrayPlus : UdonSharpBehaviour
@@ -13,65 +17,65 @@ namespace UdonLab
         {
             if (!duplicates)
             {
-                int _index = Index(_array, _value);
-                if (_index != -1)
+                if (IndexOf(_array, _value) != -1)
                     return _array;
             }
-            T[] _newArray = new T[_array.Length + 1];
-            Array.Copy(_array, _newArray, _array.Length);
-            _newArray[_array.Length] = _value;
+            var length = _array.Length;
+            var _newArray = new T[length + 1];
+            Array.Copy(_array, _newArray, length);
+            _newArray.SetValue(_value, length);
             return _newArray;
         }
-        public static T[] AddIndex<T>(T[] _array, T _value, int index, bool duplicates = true)
+        public static T[] Insert<T>(T[] array, int index, T item, bool duplicates = true)
         {
             if (!duplicates)
             {
-                int _index = Index(_array, _value);
-                if (_index != -1)
-                    return _array;
+                if (IndexOf(array, item) != -1)
+                    return array;
             }
-            if (index < 0 || index > _array.Length)
+            var length = array.Length;
+
+            index = Mathf.Clamp(index, 0, length);
+
+            var newArray = new T[length + 1];
+
+            newArray.SetValue(item, index);
+
+            if (index == 0)
             {
-                return _array;
+                Array.Copy(array, 0, newArray, 1, length);
             }
-            else if (index == _array.Length)
+            else if (index == length)
             {
-                return Add(_array, _value);
+                Array.Copy(array, 0, newArray, 0, length);
             }
             else
             {
-                T[] _newArray = new T[_array.Length + 1];
-                for (int i = 0; i < index; i++)
-                {
-                    _newArray[i] = _array[i];
-                }
-                _newArray[index] = _value;
-                for (int i = index + 1; i < _array.Length + 1; i++)
-                {
-                    _newArray[i] = _array[i - 1];
-                }
-                return _newArray;
+                Array.Copy(array, 0, newArray, 0, index);
+                Array.Copy(array, index, newArray, index + 1, length - index);
             }
+
+            return newArray;
         }
-        public static int Find<T>(T[] _array, T _value)
+        public static bool Contains<T>(T[] array, T item)
         {
-            return Index(_array, _value);
+            return IndexOf(array, item) >= 0;
         }
         public static int[] FindAll<T>(T[] _array, T _value)
         {
-            int[] _index = new int[0];
+            var _indexs = new int[0];
             for (int i = 0; i < _array.Length; i++)
             {
                 if (_array[i].Equals(_value))
                 {
-                    _index = Add(_index, i);
+                    _indexs = Add(_indexs, i);
                 }
             }
-            return _index;
+            return _indexs;
         }
         public static T[] FindAllValue<T>(T[] _array, T _value)
         {
-            T[] _newArray = new T[0];
+            var _newArray = new T[0];
             for (int i = 0; i < _array.Length; i++)
             {
                 if (_array[i].Equals(_value))
@@ -81,36 +85,42 @@ namespace UdonLab
             }
             return _newArray;
         }
-        public static int Index<T>(T[] _array, T _value)
+        public static int IndexOf<T>(T[] _array, T _value)
         {
-            for (int i = 0; i < _array.Length; i++)
-            {
-                if (_array[i].Equals(_value))
-                    return i;
-            }
-            return -1;
+            return Array.IndexOf(_array, _value);
         }
-        public static T[] RemoveIndex<T>(T[] _array, int index)
+        public static T[] RemoveAt<T>(T[] array, int index)
         {
-            if (index < 0 || index >= _array.Length)
-                return _array;
-            T[] _newArray = new T[_array.Length - 1];
-            for (int i = 0; i < index; i++)
+            int length = array.Length;
+
+            if(index >= length || index < 0) { return array; }
+
+            int maxIndex = length - 1;
+
+            T[] newArray = new T[maxIndex];
+
+            if (index == 0)
             {
-                _newArray[i] = _array[i];
+                Array.Copy(array, 1, newArray, 0, maxIndex);
             }
-            for (int i = index; i < _array.Length - 1; i++)
+            else if(index == maxIndex)
             {
-                _newArray[i] = _array[i + 1];
+                Array.Copy(array, 0, newArray, 0, maxIndex);
             }
-            return _newArray;
+            else
+            {
+                Array.Copy(array, 0, newArray, 0, index);
+                Array.Copy(array, index + 1, newArray, index, maxIndex - index);
+            }
+
+            return newArray;
         }
         public static T[] Remove<T>(T[] _array, T _value)
         {
-            int index = Index(_array, _value);
+            var index = IndexOf(_array, _value);
             if (index == -1)
                 return _array;
-            return RemoveIndex(_array, index);
+            return RemoveAt(_array, index);
         }
         // String
         public static string[] StringsFindLikeAll(string[] _array, string _value)
@@ -137,94 +147,6 @@ namespace UdonLab
                 }
             }
             return _newArray;
-        }
-        public static int VRCUrlsFind(VRCUrl[] _array, VRCUrl _value)
-        {
-            return VRCUrlsIndex(_array, _value);
-        }
-        public static int[] VRCUrlsFindAll(VRCUrl[] _array, VRCUrl _value)
-        {
-            int[] _index = new int[0];
-            for (int i = 0; i < _array.Length; i++)
-            {
-                if (_array[i].ToString() == _value.ToString())
-                {
-                    _index = Add(_index, i);
-                }
-            }
-            return _index;
-        }
-        public static VRCUrl[] VRCUrlsFindAllValue(VRCUrl[] _array, VRCUrl _value)
-        {
-            VRCUrl[] _newArray = new VRCUrl[0];
-            for (int i = 0; i < _array.Length; i++)
-            {
-                if (_array[i].ToString() == _value.ToString())
-                {
-                    _newArray = VRCUrlsAdd(_newArray, _array[i]);
-                }
-            }
-            return _newArray;
-        }
-        public static int VRCUrlsIndex(VRCUrl[] _array, VRCUrl _value)
-        {
-            for (int i = 0; i < _array.Length; i++)
-            {
-                if (_array[i].ToString() == _value.ToString())
-                    return i;
-            }
-            return -1;
-        }
-        public static VRCUrl[] VRCUrlsAdd(VRCUrl[] _array, VRCUrl _value, bool duplicates = true)
-        {
-            if (!duplicates)
-            {
-                int _index = VRCUrlsIndex(_array, _value);
-                if (_index != -1)
-                    return _array;
-            }
-            VRCUrl[] _newArray = new VRCUrl[_array.Length + 1];
-            Array.Copy(_array, _newArray, _array.Length);
-            _newArray[_array.Length] = _value;
-            return _newArray;
-        }
-        public static VRCUrl[] VRCUrlsAddIndex(VRCUrl[] _array, VRCUrl _value, int index, bool duplicates = true)
-        {
-            if (!duplicates)
-            {
-                int _index = VRCUrlsIndex(_array, _value);
-                if (_index != -1)
-                    return _array;
-            }
-            if (index < 0 || index > _array.Length)
-            {
-                return _array;
-            }
-            else if (index == _array.Length)
-            {
-                return VRCUrlsAdd(_array, _value);
-            }
-            else
-            {
-                VRCUrl[] _newArray = new VRCUrl[_array.Length + 1];
-                for (int i = 0; i < index; i++)
-                {
-                    _newArray[i] = _array[i];
-                }
-                _newArray[index] = _value;
-                for (int i = index + 1; i < _array.Length + 1; i++)
-                {
-                    _newArray[i] = _array[i - 1];
-                }
-                return _newArray;
-            }
-        }
-        public static VRCUrl[] VRCUrlsRemove(VRCUrl[] _array, VRCUrl _value)
-        {
-            int index = VRCUrlsIndex(_array, _value);
-            if (index == -1)
-                return _array;
-            return RemoveIndex(_array, index);
         }
         // Int
         public static int[] IntsSort(int[] _array, bool reverse = false)
@@ -322,7 +244,7 @@ namespace UdonLab
         }
         public static VRCPlayerApi[] PlayersAdd(VRCPlayerApi[] players, VRCPlayerApi _player, bool force = false)
         {
-            int index = PlayersIndex(players, _player);
+            var index = PlayersIndex(players, _player);
             if (index != -1 && !force)
                 return players;
             VRCPlayerApi[] newPlayers = new VRCPlayerApi[players.Length + 1];
@@ -360,7 +282,7 @@ namespace UdonLab
         }
         public static VRCPlayerApi[] PlayersRemove(VRCPlayerApi[] players, VRCPlayerApi _player)
         {
-            int index = PlayersIndex(players, _player);
+            var index = PlayersIndex(players, _player);
             if (index == -1)
             {
                 return players;
