@@ -26,6 +26,10 @@ namespace UdonLab
             _newArray.SetValue(_value, length);
             return _newArray;
         }
+        public static T[] Add<T>(ref T[] _array, T _value, bool duplicates = true)
+        {
+            return _array = Add(_array, _value, duplicates);
+        }
         public static T[] Insert<T>(T[] array, int index, T item, bool duplicates = true)
         {
             if (!duplicates)
@@ -56,6 +60,10 @@ namespace UdonLab
             }
 
             return newArray;
+        }
+        public static T[] Insert<T>(ref T[] array, int index, T item, bool duplicates = true)
+        {
+            return array = Insert(array, index, item, duplicates);
         }
         public static bool Contains<T>(T[] array, T item)
         {
@@ -89,11 +97,15 @@ namespace UdonLab
         {
             return Array.IndexOf(_array, _value);
         }
+        public static int IndexOf<T>(T[] _array, T _value, out int index)
+        {
+            return index = Array.IndexOf(_array, _value);
+        }
         public static T[] RemoveAt<T>(T[] array, int index)
         {
             int length = array.Length;
 
-            if(index >= length || index < 0) { return array; }
+            if (index >= length || index < 0) { return array; }
 
             int maxIndex = length - 1;
 
@@ -103,7 +115,7 @@ namespace UdonLab
             {
                 Array.Copy(array, 1, newArray, 0, maxIndex);
             }
-            else if(index == maxIndex)
+            else if (index == maxIndex)
             {
                 Array.Copy(array, 0, newArray, 0, maxIndex);
             }
@@ -115,12 +127,20 @@ namespace UdonLab
 
             return newArray;
         }
+        public static T[] RemoveAt<T>(ref T[] array, int index)
+        {
+            return array = RemoveAt(array, index);
+        }
         public static T[] Remove<T>(T[] _array, T _value)
         {
             var index = IndexOf(_array, _value);
             if (index == -1)
                 return _array;
             return RemoveAt(_array, index);
+        }
+        public static T[] Remove<T>(ref T[] _array, T _value)
+        {
+            return _array = Remove(_array, _value);
         }
         // String
         public static string[] StringsFindLikeAll(string[] _array, string _value)
@@ -169,6 +189,10 @@ namespace UdonLab
             }
             return _newArray;
         }
+        public static int[] IntsSort(ref int[] _array, bool reverse = false)
+        {
+            return _array = IntsSort(_array, reverse);
+        }
         // Float
         public static float[] FloatsSort(float[] _array, bool reverse)
         {
@@ -189,6 +213,10 @@ namespace UdonLab
                             (_newArray[j], _newArray[i]) = (_newArray[i], _newArray[j]);
             }
             return _newArray;
+        }
+        public static float[] FloatsSort(ref float[] _array, bool reverse)
+        {
+            return _array = FloatsSort(_array, reverse);
         }
         // VRCPlayerApi
         public static VRCPlayerApi[] Players()
@@ -252,6 +280,10 @@ namespace UdonLab
             newPlayers[players.Length] = _player;
             return newPlayers;
         }
+        public static VRCPlayerApi[] PlayersAdd(ref VRCPlayerApi[] players, VRCPlayerApi _player, bool force = false)
+        {
+            return players = PlayersAdd(players, _player, force);
+        }
         public static VRCPlayerApi[] PlayersAddIndex(VRCPlayerApi[] players, VRCPlayerApi _player, int index, bool force = false)
         {
             if (index < 0 || index > players.Length)
@@ -280,6 +312,10 @@ namespace UdonLab
                 return newPlayers;
             }
         }
+        public static VRCPlayerApi[] PlayersAddIndex(ref VRCPlayerApi[] players, VRCPlayerApi _player, int index, bool force = false)
+        {
+            return players = PlayersAddIndex(players, _player, index, force);
+        }
         public static VRCPlayerApi[] PlayersRemove(VRCPlayerApi[] players, VRCPlayerApi _player)
         {
             var index = PlayersIndex(players, _player);
@@ -300,6 +336,10 @@ namespace UdonLab
                 }
                 return newPlayers;
             }
+        }
+        public static VRCPlayerApi[] PlayersRemove(ref VRCPlayerApi[] players, VRCPlayerApi _player)
+        {
+            return players = PlayersRemove(players, _player);
         }
         public static VRCPlayerApi PlayersFindID(int _id)
         {
