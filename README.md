@@ -13,7 +13,7 @@ Download the UnityPackage package through [Booth](https://853lab.booth.pm/items/
 # 安装方法（VCC）：
 在 Settings → Packages 下点击“Add Repository”按钮后输入以下URL：
 
-https://page.853lab.com/vpm.json
+https://page.853lab.com/vpm-repos/vpm.json
 
 随后在项目添加“Udon Array Plus”包。
 
