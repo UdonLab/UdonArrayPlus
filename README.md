@@ -3,7 +3,7 @@
 # Installation method (VCC):
 Click the "Add Repository" button under Settings → Packages and enter the following URL:
 
-https://page.853lab.com/vpm.json
+https://page.853lab.com/vpm-repos/vpm.json
 
 Then add the "Udon Array Plus" package to the project.
 
