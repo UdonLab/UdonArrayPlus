@@ -27,11 +27,11 @@ jobs:
       - name: Bump version
         id: read_version
         run: |
-          git fetch --tags
-          last_tag=$(git describe --always --tags --abbrev=0 || echo "0.0.0")
+          git fetch --prune --unshallow
+          last_tag=$(git describe --tags --abbrev=0 HEAD~|| echo "0.0.0")
           current_version=$(npm pkg get version --workspaces=false | tr -d \")
           name=$(npm pkg get name --workspaces=false | tr -d \")
-          echo $last_tag
+          echo "Latest Tag: $last_tag"
           echo $current_version
           echo "last_tag=$last_tag" >> $GITHUB_OUTPUT
           echo "current_version=$current_version" >> $GITHUB_OUTPUT
