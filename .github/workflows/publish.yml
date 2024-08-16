@@ -54,9 +54,11 @@ jobs:
           zip -r ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.zip . -x ".git*" ".github*" "Packages*"
 
       - name: Track Package Meta Files
+        if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
         run: find "Packages/" -name \*.meta >> metaList
 
       - name: Create UnityPackage
+        if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
         uses: pCYSl5EDgo/create-unitypackage@master
         with:
           package-path: ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.unitypackage
