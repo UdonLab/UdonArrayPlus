@@ -19,11 +19,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Checkout repository to Packages
-        uses: actions/checkout@v4
-        with:
-          path: Packages
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -42,6 +37,11 @@ jobs:
           echo "current_version=$current_version" >> $GITHUB_OUTPUT
           echo "name=$name" >> $GITHUB_OUTPUT
 
+      - name: Checkout repository to Packages
+        uses: actions/checkout@v4
+        with:
+          path: Packages/${{ steps.read_version.outputs.name }}
+
       - name: Create Tag
         if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
         uses: rickstaa/action-create-tag@v1
@@ -55,7 +55,7 @@ jobs:
 
       - name: Track Package Meta Files
         if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
-        run: find "Packages/" -name \*.meta >> metaList
+        run: find "Packages/${{ steps.read_version.outputs.name }}" -name \*.meta >> metaList
 
       - name: Create UnityPackage
         if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
