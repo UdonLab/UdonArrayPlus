@@ -142,6 +142,24 @@ namespace UdonLab
         {
             return _array = Remove(_array, _value);
         }
+        public static T[] AddRange<T>(T[] _array, T[] collection)
+        {
+            var length = _array.Length;
+
+            var collectionLength = collection.Length;
+
+            var newArray = new T[length + collectionLength];
+
+            _array.CopyTo(newArray, 0);
+
+            collection.CopyTo(newArray, length);
+
+            return newArray;
+        }
+        public static T[] AddRange<T>(ref T[] _array, T[] collection)
+        {
+            return _array = AddRange(_array, collection);
+        }
         // String
         public static string[] StringsFindLikeAll(string[] _array, string _value)
         {
