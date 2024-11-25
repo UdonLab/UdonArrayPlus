@@ -1,5 +1,5 @@
 {
-    "name": "UdonLab.ArrayPlus",
+    "name": "Sonic853.UdonLab.ArrayPlus",
     "rootNamespace": "",
     "references": [
         "VRC.Udon",
