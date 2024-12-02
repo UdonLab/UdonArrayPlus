@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
@@ -9,7 +8,7 @@ using VRC.Udon;
 // Varneon's VUdon-ArrayExtensions license: MIT License
 // Reference code: https://github.com/Varneon/VUdon-ArrayExtensions/blob/main/Packages/com.varneon.vudon.array-extensions/Runtime/UdonArrayExtensions.cs
 
-namespace UdonLab
+namespace Sonic853.Udon.ArrayPlus
 {
     public class UdonArrayPlus : UdonSharpBehaviour
     {
