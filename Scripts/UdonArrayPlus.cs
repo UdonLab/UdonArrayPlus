@@ -25,10 +25,7 @@ namespace Sonic853.Udon.ArrayPlus
             _newArray.SetValue(_value, length);
             return _newArray;
         }
-        public static T[] Add<T>(ref T[] _array, T _value, bool duplicates = true)
-        {
-            return _array = Add(_array, _value, duplicates);
-        }
+        public static T[] Add<T>(ref T[] _array, T _value, bool duplicates = true) => _array = Add(_array, _value, duplicates);
         public static T[] Insert<T>(T[] array, int index, T item, bool duplicates = true)
         {
             if (!duplicates)
@@ -60,10 +57,7 @@ namespace Sonic853.Udon.ArrayPlus
 
             return newArray;
         }
-        public static T[] Insert<T>(ref T[] array, int index, T item, bool duplicates = true)
-        {
-            return array = Insert(array, index, item, duplicates);
-        }
+        public static T[] Insert<T>(ref T[] array, int index, T item, bool duplicates = true) => array = Insert(array, index, item, duplicates);
         public static bool Contains<T>(T[] array, T item)
         {
             return IndexOf(array, item) >= 0;
@@ -126,10 +120,7 @@ namespace Sonic853.Udon.ArrayPlus
 
             return newArray;
         }
-        public static T[] RemoveAt<T>(ref T[] array, int index)
-        {
-            return array = RemoveAt(array, index);
-        }
+        public static T[] RemoveAt<T>(ref T[] array, int index) => array = RemoveAt(array, index);
         public static T[] Remove<T>(T[] _array, T _value)
         {
             var index = IndexOf(_array, _value);
@@ -137,10 +128,20 @@ namespace Sonic853.Udon.ArrayPlus
                 return _array;
             return RemoveAt(_array, index);
         }
-        public static T[] Remove<T>(ref T[] _array, T _value)
+        public static T[] Remove<T>(ref T[] _array, T _value) => _array = Remove(_array, _value);
+        public static T[] RemoveAll<T>(T[] _array, T _value)
         {
-            return _array = Remove(_array, _value);
+            var index = IndexOf(_array, _value);
+            if (index == -1)
+                return _array;
+            while (index != -1)
+            {
+                _array = RemoveAt(_array, index);
+                index = IndexOf(_array, _value);
+            }
+            return _array;
         }
+        public static T[] RemoveAll<T>(ref T[] _array, T _value) => _array = RemoveAll(_array, _value);
         public static T[] AddRange<T>(T[] _array, T[] collection)
         {
             var length = _array.Length;
@@ -155,10 +156,7 @@ namespace Sonic853.Udon.ArrayPlus
 
             return newArray;
         }
-        public static T[] AddRange<T>(ref T[] _array, T[] collection)
-        {
-            return _array = AddRange(_array, collection);
-        }
+        public static T[] AddRange<T>(ref T[] _array, T[] collection) => _array = AddRange(_array, collection);
         // String
         public static string[] StringsFindLikeAll(string[] _array, string _value)
         {
@@ -206,10 +204,7 @@ namespace Sonic853.Udon.ArrayPlus
             }
             return _newArray;
         }
-        public static int[] IntsSort(ref int[] _array, bool reverse = false)
-        {
-            return _array = IntsSort(_array, reverse);
-        }
+        public static int[] IntsSort(ref int[] _array, bool reverse = false) => _array = IntsSort(_array, reverse);
         // Float
         public static float[] FloatsSort(float[] _array, bool reverse)
         {
@@ -231,10 +226,7 @@ namespace Sonic853.Udon.ArrayPlus
             }
             return _newArray;
         }
-        public static float[] FloatsSort(ref float[] _array, bool reverse)
-        {
-            return _array = FloatsSort(_array, reverse);
-        }
+        public static float[] FloatsSort(ref float[] _array, bool reverse) => _array = FloatsSort(_array, reverse);
         // VRCPlayerApi
         public static VRCPlayerApi[] Players()
         {
@@ -297,10 +289,7 @@ namespace Sonic853.Udon.ArrayPlus
             newPlayers[players.Length] = _player;
             return newPlayers;
         }
-        public static VRCPlayerApi[] PlayersAdd(ref VRCPlayerApi[] players, VRCPlayerApi _player, bool force = false)
-        {
-            return players = PlayersAdd(players, _player, force);
-        }
+        public static VRCPlayerApi[] PlayersAdd(ref VRCPlayerApi[] players, VRCPlayerApi _player, bool force = false) => players = PlayersAdd(players, _player, force);
         public static VRCPlayerApi[] PlayersAddIndex(VRCPlayerApi[] players, VRCPlayerApi _player, int index, bool force = false)
         {
             if (index < 0 || index > players.Length)
@@ -329,10 +318,7 @@ namespace Sonic853.Udon.ArrayPlus
                 return newPlayers;
             }
         }
-        public static VRCPlayerApi[] PlayersAddIndex(ref VRCPlayerApi[] players, VRCPlayerApi _player, int index, bool force = false)
-        {
-            return players = PlayersAddIndex(players, _player, index, force);
-        }
+        public static VRCPlayerApi[] PlayersAddIndex(ref VRCPlayerApi[] players, VRCPlayerApi _player, int index, bool force = false) => players = PlayersAddIndex(players, _player, index, force);
         public static VRCPlayerApi[] PlayersRemove(VRCPlayerApi[] players, VRCPlayerApi _player)
         {
             var index = PlayersIndex(players, _player);
@@ -354,10 +340,7 @@ namespace Sonic853.Udon.ArrayPlus
                 return newPlayers;
             }
         }
-        public static VRCPlayerApi[] PlayersRemove(ref VRCPlayerApi[] players, VRCPlayerApi _player)
-        {
-            return players = PlayersRemove(players, _player);
-        }
+        public static VRCPlayerApi[] PlayersRemove(ref VRCPlayerApi[] players, VRCPlayerApi _player) => players = PlayersRemove(players, _player);
         public static VRCPlayerApi PlayersFindID(int _id)
         {
             VRCPlayerApi[] players = Players();
