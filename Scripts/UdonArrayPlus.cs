@@ -22,7 +22,8 @@ namespace Sonic853.Udon.ArrayPlus
             var length = _array.Length;
             var _newArray = new T[length + 1];
             Array.Copy(_array, _newArray, length);
-            _newArray.SetValue(_value, length);
+            // _newArray.SetValue(_value, length);
+            _newArray[length] = _value;
             return _newArray;
         }
         public static T[] Add<T>(ref T[] _array, T _value, bool duplicates = true) => _array = Add(_array, _value, duplicates);
@@ -39,7 +40,8 @@ namespace Sonic853.Udon.ArrayPlus
 
             var newArray = new T[length + 1];
 
-            newArray.SetValue(item, index);
+            // newArray.SetValue(item, index);
+            newArray[index] = item;
 
             if (index == 0)
             {
