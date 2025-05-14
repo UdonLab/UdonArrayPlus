@@ -60,10 +60,7 @@ namespace Sonic853.Udon.ArrayPlus
             return newArray;
         }
         public static T[] Insert<T>(ref T[] array, int index, T item, bool duplicates = true) => array = Insert(array, index, item, duplicates);
-        public static bool Contains<T>(T[] array, T item)
-        {
-            return IndexOf(array, item) >= 0;
-        }
+        public static bool Contains<T>(T[] array, T item) => IndexOf(array, item) >= 0;
         public static int[] FindAll<T>(T[] _array, T _value)
         {
             var _indexs = new int[0];
@@ -88,14 +85,8 @@ namespace Sonic853.Udon.ArrayPlus
             }
             return _newArray;
         }
-        public static int IndexOf<T>(T[] _array, T _value)
-        {
-            return Array.IndexOf(_array, _value);
-        }
-        public static int IndexOf<T>(T[] _array, T _value, out int index)
-        {
-            return index = Array.IndexOf(_array, _value);
-        }
+        public static int IndexOf<T>(T[] _array, T _value) => Array.IndexOf(_array, _value);
+        public static int IndexOf<T>(T[] _array, T _value, out int index) => index = Array.IndexOf(_array, _value);
         public static T[] RemoveAt<T>(T[] array, int index)
         {
             int length = array.Length;
